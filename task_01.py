@@ -15,23 +15,23 @@ import pulp
 model = pulp.LpProblem("Maximize_Volume", pulp.LpMaximize)
 
 # Змінні
-L = pulp.LpVariable("Lemonade", lowBound=0, cat="Integer")
-F = pulp.LpVariable("Fruit_Juice", lowBound=0, cat="Integer")
+lemo = pulp.LpVariable("Lemonade", lowBound=0, cat="Integer")
+fruit_juice = pulp.LpVariable("Fruit_Juice", lowBound=0, cat="Integer")
 
 # Цільова функція (максимізація виробництва)
-model += L + F, "Total_Volume"
+model += lemo + fruit_juice, "Total_Volume"
 
 # Обмеження
-model += 2 * L + F <= 100  # Water constraint
-model += L <= 50  # Sugar constraint
-model += L <= 30  # Lemon Juice constraint
-model += 2 * F <= 40  # Fruit Puree constrain
+model += 2 * lemo + fruit_juice <= 100  # Water constraint
+model += lemo <= 50  # Sugar constraint
+model += lemo <= 30  # Lemon Juice constraint
+model += 2 * fruit_juice <= 40  # Fruit Puree constraint
 
 # Розв'язання моделі
 model.solve()
 
 # Вивід результатів
 print("Status:", pulp.LpStatus[model.status])
-print("Лимонад:", L.varValue)
-print("Фруктовий сік:", F.varValue)
-print("Загальна продукція:", L.varValue + F.varValue)
+print(f"'Лимонад': {lemo.varValue} літрів")
+print(f"'Фруктовий сік': {fruit_juice.varValue} літрів")
+print(f"'Загальна продукція': {lemo.varValue + fruit_juice.varValue} літрів")
